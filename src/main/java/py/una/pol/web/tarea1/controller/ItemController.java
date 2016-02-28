@@ -18,7 +18,6 @@ public class ItemController {
         //Mock product
         Item p = new Item();
         p.setName("Coke 500 ml");
-        p.setAmount(100);
         this.addItem(p);
     }
 
@@ -47,10 +46,6 @@ public class ItemController {
     public Item updateItem(Integer id, Item itemWithChanges) {
         for(Item p : items) {
             if(p.getId() != null && p.getId().equals(id)) {
-                if(itemWithChanges.getAmount() != null) {
-                    p.setAmount(itemWithChanges.getAmount());
-                }
-
                 if(itemWithChanges.getName() != null) {
                     p.setName(itemWithChanges.getName());
                 }
