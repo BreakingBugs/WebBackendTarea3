@@ -21,6 +21,8 @@ public class ProviderService {
     @Consumes("application/json")
     @Produces("application/json")
     public Provider addProvider(Provider newProvider) {
+        System.out.println("newProvider: ");
+        System.out.println(newProvider.getName());
         ProviderController.getInstance().addProvider(newProvider);
         return newProvider;
     }

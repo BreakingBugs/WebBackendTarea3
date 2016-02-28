@@ -10,7 +10,6 @@ public class Provider implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String name;
-    private List<Item> items;
 
     public Integer getId() {
         return id;
@@ -28,11 +27,4 @@ public class Provider implements Serializable {
         this.name = name;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
 }
