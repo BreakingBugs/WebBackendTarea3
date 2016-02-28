@@ -1,9 +1,6 @@
 package py.una.pol.web.tarea1.controller;
 
-import py.una.pol.web.tarea1.model.Customer;
-import py.una.pol.web.tarea1.model.Item;
-import py.una.pol.web.tarea1.model.Order;
-import py.una.pol.web.tarea1.model.Provider;
+import py.una.pol.web.tarea1.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +56,19 @@ public class CustomerController {
             c.setAmountToPay(c.getAmountToPay() + total);
             i.setStock(i.getStock() - amount);
         }
+
+        return true;
+    }
+
+    public boolean addPayment(Integer clientId, Payment payment) {
+        Customer c = this.getCustomer(clientId);
+        if(c == null) {
+            return false;
+        }
+
+        Double monto = payment.getAmount();
+        c.setAmountToPay(c.getAmountToPay() - monto);
+        c.getPayments().add(payment);
 
         return true;
     }

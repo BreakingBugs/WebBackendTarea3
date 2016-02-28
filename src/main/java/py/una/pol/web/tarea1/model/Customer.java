@@ -1,6 +1,8 @@
 package py.una.pol.web.tarea1.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by codiumsa on 28/2/16.
@@ -10,6 +12,7 @@ public class Customer implements Serializable {
     private Integer id;
     private String name;
     private Double amountToPay;
+    private List<Payment> payments = new ArrayList<Payment>();
 
     public Integer getId() {
         return id;
@@ -33,5 +36,13 @@ public class Customer implements Serializable {
 
     public void setAmountToPay(Double amountToPay) {
         this.amountToPay = amountToPay;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 }
