@@ -1,6 +1,7 @@
 package py.una.pol.web.tarea1.controller;
 
 import py.una.pol.web.tarea1.model.Item;
+import py.una.pol.web.tarea1.model.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +62,17 @@ public class ItemController {
     public void removeItem(final Integer id) {
         items.removeIf(new Predicate<Item>() {
             public boolean test(Item item) {
-                if(item.getId() != null && item.getId().equals(id)) {
-                    return true;
-                }
-                return false;
+                return item.getId() != null && item.getId().equals(id);
             }
         });
+
+        for(Provider p : ProviderController.getInstance().getProviders()) {
+            p.getItems().removeIf(new Predicate<Integer>() {
+                public boolean test(Integer integer) {
+                    return integer.equals(id);
+                }
+            });
+        }
     }
 
 }

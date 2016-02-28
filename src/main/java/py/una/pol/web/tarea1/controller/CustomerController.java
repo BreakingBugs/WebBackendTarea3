@@ -88,10 +88,7 @@ public class CustomerController {
     public void removeCustomer(final Integer id) {
         customers.removeIf(new Predicate<Customer>() {
             public boolean test(Customer customer) {
-                if(customer.getId() != null && customer.getId().equals(id)) {
-                    return true;
-                }
-                return false;
+                return customer.getId() != null && customer.getId().equals(id);
             }
         });
     }

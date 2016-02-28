@@ -32,7 +32,22 @@ public class ProviderController {
 
     public void addProvider(Provider p) {
         p.setId(sequence++);
+
+        checkItems(p);
+
         this.providers.add(p);
+    }
+
+    private void checkItems(Provider p) {
+        //comprobamos que todos los items asociados sean validos
+        for(int i = 0; i < p.getItems().size(); i++) {
+            Item item = ItemController.getInstance().getItem(p.getItems().get(i));
+            if(item != null) {
+                continue;
+            }
+
+            p.getItems().remove(i);
+        }
     }
 
     public Provider getProvider(Integer id) {
@@ -50,6 +65,10 @@ public class ProviderController {
                 if(providerWithChanges.getName() != null) {
                     p.setName(providerWithChanges.getName());
                 }
+                if(providerWithChanges.getItems() != null) {
+                    p.setItems(providerWithChanges.getItems());
+                    checkItems(p);
+                }
 
                 return p;
             }
@@ -60,10 +79,8 @@ public class ProviderController {
     public void removeProvider(final Integer id) {
         providers.removeIf(new Predicate<Provider>() {
             public boolean test(Provider provider) {
-                if(provider.getId() != null && provider.getId().equals(id)) {
-                    return true;
-                }
-                return false;
+                return provider.getId() != null && provider.getId().equals(id);
+
             }
         });
     }
