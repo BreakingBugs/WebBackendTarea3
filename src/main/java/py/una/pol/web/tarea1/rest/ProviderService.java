@@ -1,6 +1,7 @@
 package py.una.pol.web.tarea1.rest;
 
 import py.una.pol.web.tarea1.controller.ProviderController;
+import py.una.pol.web.tarea1.model.Order;
 import py.una.pol.web.tarea1.model.Provider;
 
 import javax.ws.rs.*;
@@ -25,6 +26,18 @@ public class ProviderService {
         System.out.println(newProvider.getName());
         ProviderController.getInstance().addProvider(newProvider);
         return newProvider;
+    }
+
+    @POST
+    @Path("/{id: [0-9]*}/buy")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response sell(List<Order> orders, @PathParam("id") Integer providerId) {
+        if(ProviderController.getInstance().buyFromProvider(providerId, orders)) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @GET

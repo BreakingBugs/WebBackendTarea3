@@ -1,6 +1,7 @@
 package py.una.pol.web.tarea1.controller;
 
 import py.una.pol.web.tarea1.model.Item;
+import py.una.pol.web.tarea1.model.Order;
 import py.una.pol.web.tarea1.model.Provider;
 
 import java.util.ArrayList;
@@ -36,6 +37,28 @@ public class ProviderController {
         checkItems(p);
 
         this.providers.add(p);
+    }
+
+    public boolean buyFromProvider(Integer providerId, List<Order> orders) {
+        Provider p = this.getProvider(providerId);
+        if(p == null) {
+            return false;
+        }
+
+        for(Order o : orders) {
+            Item i = ItemController.getInstance().getItem(o.getItem());
+            if(i == null) {
+                continue;
+            }
+
+            for(Integer itemId : p.getItems()) {
+                if(i.getId().equals(itemId)) {
+                    i.setStock(i.getStock() + o.getAmount());
+                }
+            }
+        }
+
+        return true;
     }
 
     private void checkItems(Provider p) {
