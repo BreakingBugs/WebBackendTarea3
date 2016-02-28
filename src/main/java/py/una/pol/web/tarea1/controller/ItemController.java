@@ -18,6 +18,8 @@ public class ItemController {
         //Mock product
         Item p = new Item();
         p.setName("Coke 500 ml");
+        p.setStock(10);
+        p.setPrice(5000.0);
         this.addItem(p);
     }
 

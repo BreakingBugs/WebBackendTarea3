@@ -3,6 +3,7 @@ package py.una.pol.web.tarea1.rest;
 import py.una.pol.web.tarea1.controller.CustomerController;
 import py.una.pol.web.tarea1.controller.ProviderController;
 import py.una.pol.web.tarea1.model.Customer;
+import py.una.pol.web.tarea1.model.Order;
 import py.una.pol.web.tarea1.model.Provider;
 
 import javax.ws.rs.*;
@@ -26,6 +27,18 @@ public class CustomerService {
     public Customer addCustomer(Customer newCustomer) {
         CustomerController.getInstance().addCustomer(newCustomer);
         return newCustomer;
+    }
+
+    @POST
+    @Path("/{id: [0-9]*}/sell")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response sell(List<Order> orders, @PathParam("id") Integer customerId) {
+        if(CustomerController.getInstance().sellToClient(customerId, orders)) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @GET
