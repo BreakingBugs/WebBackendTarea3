@@ -26,19 +26,6 @@ public class ItemController {
     @PersistenceContext(name = "Tarea2DS")
     EntityManager em;
 
-    private Integer sequence = 1;
-    private List<Item> items = new ArrayList<Item>();
-
-    @PostConstruct
-    public void init() {
-        //Mock product
-        Item p = new Item();
-        p.setName("Coke 500 ml");
-        p.setStock(10);
-        p.setPrice(5000.0);
-        this.addItem(p);
-    }
-
     public List<Item> getItems() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Item> cq = cb.createQuery(Item.class);
@@ -59,7 +46,7 @@ public class ItemController {
 
     public Item updateItem(Integer id, Item itemWithChanges) {
         Item c = getItem(id);
-        if(c!= null) {
+        if(c != null) {
             if (itemWithChanges.getName().compareTo(c.getName()) != 0) {
                 c.setName(itemWithChanges.getName());
             }

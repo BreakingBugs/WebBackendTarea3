@@ -5,6 +5,7 @@ import py.una.pol.web.tarea2.model.Order;
 import py.una.pol.web.tarea2.model.Provider;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -25,27 +26,10 @@ public class ProviderController {
     @PersistenceContext(name = "Tarea2DS")
     EntityManager em;
 
-    @Inject
+    @EJB
     ItemController itemController;
 
-    private static ProviderController instance = new ProviderController();
-    private Integer sequence = 1;
-    private List<Provider> providers = new ArrayList<Provider>();
-
-    @PostConstruct
-    public void init() {
-        //Mock provider
-        Provider p = new Provider();
-        p.setName("Distribuidora Gloria");
-        this.addProvider(p);
-    }
-
-    public static ProviderController getInstance() {
-        return instance;
-    }
-
     public List<Provider> getProviders() {
-
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Provider> cq = cb.createQuery(Provider.class);
         Root<Provider> root = cq.from(Provider.class);
