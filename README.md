@@ -28,7 +28,7 @@ Add this Datasource to the standalone.xml file of your Wildfly:
 ```
 
 Add this driver to the same file:
-```
+```xml
 <driver name="org.postgresql" module="org.postgresql">
     <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
     <datasource-class>org.postgresql.Driver</datasource-class>
