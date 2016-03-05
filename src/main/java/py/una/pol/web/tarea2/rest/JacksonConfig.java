@@ -1,4 +1,4 @@
-package py.una.pol.web.tarea1.rest;
+package py.una.pol.web.tarea2.rest;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

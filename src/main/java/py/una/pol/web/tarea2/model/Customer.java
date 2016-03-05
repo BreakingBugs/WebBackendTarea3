@@ -1,5 +1,6 @@
-package py.una.pol.web.tarea1.model;
+package py.una.pol.web.tarea2.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,12 +8,20 @@ import java.util.List;
 /**
  * Created by codiumsa on 28/2/16.
  */
+@Entity
+@Table(name = "customer")
 public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
+
     private Double amountToPay;
-    private List<Payment> payments = new ArrayList<Payment>();
+
+    //private List<Payment> payments = new ArrayList<Payment>();
 
     public Integer getId() {
         return id;
@@ -38,11 +47,12 @@ public class Customer implements Serializable {
         this.amountToPay = amountToPay;
     }
 
-    public List<Payment> getPayments() {
+    /*public List<Payment> getPayments() {
         return payments;
     }
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
+    */
 }

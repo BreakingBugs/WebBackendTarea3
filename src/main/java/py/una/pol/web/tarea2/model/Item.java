@@ -1,13 +1,21 @@
-package py.una.pol.web.tarea1.model;
+package py.una.pol.web.tarea2.model;
 
 
+import javax.persistence.*;
 import java.io.Serializable;
-
+@Entity
+@Table(name = "item")
 public class Item implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
+
     private Double price;
+
     private Integer stock;
 
     public String getName() {

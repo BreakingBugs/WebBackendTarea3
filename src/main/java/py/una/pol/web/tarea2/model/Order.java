@@ -1,13 +1,22 @@
-package py.una.pol.web.tarea1.model;
+package py.una.pol.web.tarea2.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Created by codiumsa on 28/2/16.
  */
+@Entity
+@Table(name = "ordertable")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private Integer item;
+
     private Integer amount;
 
     public Integer getAmount() {

@@ -1,27 +1,30 @@
-package py.una.pol.web.tarea1.rest;
+package py.una.pol.web.tarea2.rest;
 
-import py.una.pol.web.tarea1.controller.ItemController;
-import py.una.pol.web.tarea1.model.Item;
+import py.una.pol.web.tarea2.controller.ItemController;
+import py.una.pol.web.tarea2.model.Item;
 
+import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/productos")
 public class ItemService {
-
+    @Inject
+    ItemController itemController;
 
     @GET
     @Produces("application/json")
     public List<Item> getItems() {
-        return ItemController.getInstance().getItems();
+        return itemController.getItems();
     }
 
     @POST
     @Consumes("application/json")
     @Produces("application/json")
     public Item addItem(Item newItem) {
-        ItemController.getInstance().addItem(newItem);
+        itemController.addItem(newItem);
         return newItem;
     }
 
@@ -29,7 +32,7 @@ public class ItemService {
     @Path("/{id: [0-9]*}")
     @Produces("application/json")
     public Response getItem(@PathParam("id") Integer id) {
-        Item p = ItemController.getInstance().getItem(id);
+        Item p = itemController.getItem(id);
         if(p != null) {
             return Response.ok(p).build();
         } else {
@@ -42,7 +45,7 @@ public class ItemService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response updateItem(@PathParam("id") Integer id, Item updatedItem) {
-        Item p = ItemController.getInstance().updateItem(id, updatedItem);
+        Item p = itemController.updateItem(id, updatedItem);
         if(p != null) {
             return Response.ok(p).build();
         } else {
@@ -53,7 +56,7 @@ public class ItemService {
     @DELETE
     @Path("/{id: [0-9]*}")
     public Response removeItem(@PathParam("id") Integer id) {
-        ItemController.getInstance().removeItem(id);
+        itemController.removeItem(id);
         return Response.ok().build();
     }
 

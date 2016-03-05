@@ -1,21 +1,24 @@
-package py.una.pol.web.tarea1.rest;
+package py.una.pol.web.tarea2.rest;
 
-import py.una.pol.web.tarea1.controller.ProviderController;
-import py.una.pol.web.tarea1.model.Order;
-import py.una.pol.web.tarea1.model.Provider;
+import py.una.pol.web.tarea2.controller.ProviderController;
+import py.una.pol.web.tarea2.model.Order;
+import py.una.pol.web.tarea2.model.Provider;
 
+import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/proveedores")
 public class ProviderService {
-
+    @Inject
+    ProviderController providerController;
 
     @GET
     @Produces("application/json")
     public List<Provider> getProviders() {
-        return ProviderController.getInstance().getProviders();
+        return providerController.getProviders();
     }
 
     @POST
@@ -24,7 +27,7 @@ public class ProviderService {
     public Provider addProvider(Provider newProvider) {
         System.out.println("newProvider: ");
         System.out.println(newProvider.getName());
-        ProviderController.getInstance().addProvider(newProvider);
+        providerController.addProvider(newProvider);
         return newProvider;
     }
 
@@ -33,7 +36,7 @@ public class ProviderService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response sell(List<Order> orders, @PathParam("id") Integer providerId) {
-        if(ProviderController.getInstance().buyFromProvider(providerId, orders)) {
+        if(providerController.buyFromProvider(providerId, orders)) {
             return Response.ok().build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -44,7 +47,7 @@ public class ProviderService {
     @Path("/{id: [0-9]*}")
     @Produces("application/json")
     public Response getProvider(@PathParam("id") Integer id) {
-        Provider p = ProviderController.getInstance().getProvider(id);
+        Provider p = providerController.getProvider(id);
         if(p != null) {
             return Response.ok(p).build();
         } else {
@@ -57,7 +60,7 @@ public class ProviderService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response updateProvider(@PathParam("id") Integer id, Provider updatedProvider) {
-        Provider p = ProviderController.getInstance().updateProvider(id, updatedProvider);
+        Provider p = providerController.updateProvider(id, updatedProvider);
         if(p != null) {
             return Response.ok(p).build();
         } else {
@@ -68,7 +71,7 @@ public class ProviderService {
     @DELETE
     @Path("/{id: [0-9]*}")
     public Response removeProvider(@PathParam("id") Integer id) {
-        ProviderController.getInstance().removeProvider(id);
+        providerController.removeProvider(id);
         return Response.ok().build();
     }
 

@@ -1,9 +1,18 @@
-package py.una.pol.web.tarea1.controller;
+package py.una.pol.web.tarea2.controller;
 
-import py.una.pol.web.tarea1.model.Item;
-import py.una.pol.web.tarea1.model.Order;
-import py.una.pol.web.tarea1.model.Provider;
+import py.una.pol.web.tarea2.model.Item;
+import py.una.pol.web.tarea2.model.Order;
+import py.una.pol.web.tarea2.model.Provider;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -11,12 +20,20 @@ import java.util.function.Predicate;
 /**
  * Created by codiumsa on 27/2/16.
  */
+@Stateless
 public class ProviderController {
+    @PersistenceContext(name = "Tarea2DS")
+    EntityManager em;
+
+    @Inject
+    ItemController itemController;
+
     private static ProviderController instance = new ProviderController();
     private Integer sequence = 1;
     private List<Provider> providers = new ArrayList<Provider>();
 
-    private ProviderController() {
+    @PostConstruct
+    public void init() {
         //Mock provider
         Provider p = new Provider();
         p.setName("Distribuidora Gloria");
@@ -28,15 +45,18 @@ public class ProviderController {
     }
 
     public List<Provider> getProviders() {
-        return providers;
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Provider> cq = cb.createQuery(Provider.class);
+        Root<Provider> root = cq.from(Provider.class);
+        cq.select(root);
+        TypedQuery<Provider> query = em.createQuery(cq);
+
+        return query.getResultList();
     }
 
     public void addProvider(Provider p) {
-        p.setId(sequence++);
-
-        checkItems(p);
-
-        this.providers.add(p);
+        em.persist(p);
     }
 
     public boolean buyFromProvider(Integer providerId, List<Order> orders) {
@@ -46,16 +66,17 @@ public class ProviderController {
         }
 
         for(Order o : orders) {
-            Item i = ItemController.getInstance().getItem(o.getItem());
+            Item i = itemController.getItem(o.getItem());
             if(i == null) {
                 continue;
             }
-
+            /*
             for(Integer itemId : p.getItems()) {
                 if(i.getId().equals(itemId)) {
                     i.setStock(i.getStock() + o.getAmount());
                 }
             }
+            */
         }
 
         return true;
@@ -63,49 +84,37 @@ public class ProviderController {
 
     private void checkItems(Provider p) {
         //comprobamos que todos los items asociados sean validos
+        /*
         for(int i = 0; i < p.getItems().size(); i++) {
-            Item item = ItemController.getInstance().getItem(p.getItems().get(i));
+            Item item = itemController.getItem(p.getItems().get(i));
             if(item != null) {
                 continue;
             }
 
             p.getItems().remove(i);
         }
+        */
     }
 
     public Provider getProvider(Integer id) {
-        for(Provider p : providers) {
-            if(p.getId() != null && p.getId().equals(id)) {
-                return p;
-            }
-        }
-        return null;
+       return em.find(Provider.class, id);
     }
 
     public Provider updateProvider(Integer id, Provider providerWithChanges) {
-        for(Provider p : providers) {
-            if(p.getId() != null && p.getId().equals(id)) {
-                if(providerWithChanges.getName() != null) {
-                    p.setName(providerWithChanges.getName());
-                }
-                if(providerWithChanges.getItems() != null) {
-                    p.setItems(providerWithChanges.getItems());
-                    checkItems(p);
-                }
-
-                return p;
+        Provider p = getProvider(id);
+        if(p!=null) {
+            if(providerWithChanges.getName().compareTo(p.getName()) != 0) {
+                p.setName(providerWithChanges.getName());
             }
         }
-        return null;
+        return p;
     }
 
     public void removeProvider(final Integer id) {
-        providers.removeIf(new Predicate<Provider>() {
-            public boolean test(Provider provider) {
-                return provider.getId() != null && provider.getId().equals(id);
-
-            }
-        });
+        Provider p = getProvider(id);
+        if(p!=null) {
+            em.remove(p);
+        }
     }
 
 }
