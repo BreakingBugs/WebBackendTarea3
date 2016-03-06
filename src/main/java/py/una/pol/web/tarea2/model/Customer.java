@@ -21,7 +21,8 @@ public class Customer implements Serializable {
 
     private Double amountToPay;
 
-    //private List<Payment> payments = new ArrayList<Payment>();
+    @OneToMany(mappedBy = "customer")
+    private List<Payment> payments;
 
     public Integer getId() {
         return id;
@@ -47,12 +48,12 @@ public class Customer implements Serializable {
         this.amountToPay = amountToPay;
     }
 
-    /*public List<Payment> getPayments() {
+    public List<Payment> getPayments() {
         return payments;
     }
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
-    */
+
 }

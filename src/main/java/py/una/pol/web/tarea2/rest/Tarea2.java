@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @ApplicationPath("/api")
-public class Tarea1 extends Application {
+public class Tarea2 extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> set = new HashSet<Class<?>>(2);

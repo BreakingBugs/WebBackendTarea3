@@ -33,10 +33,11 @@ public class CustomerController {
     @PostConstruct
     public void init() {
         //Mock customer
-        Customer c = new Customer();
+        /*Customer c = new Customer();
         c.setName("John Doe");
         c.setAmountToPay(0.0);
         this.addCustomer(c);
+        */
     }
 
     public static CustomerController getInstance() {

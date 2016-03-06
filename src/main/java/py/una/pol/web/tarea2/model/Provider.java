@@ -1,5 +1,7 @@
 package py.una.pol.web.tarea2.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +20,9 @@ public class Provider implements Serializable {
 
     private String name;
 
-    //private List<Integer> items = new ArrayList<Integer>();
+    @OneToMany(mappedBy = "provider")
+    @JsonIgnore
+    private List<Item> items;
 
     public Integer getId() {
         return id;
@@ -36,12 +40,11 @@ public class Provider implements Serializable {
         this.name = name;
     }
 
-   /* public List<Integer> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Integer> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
-    */
 }

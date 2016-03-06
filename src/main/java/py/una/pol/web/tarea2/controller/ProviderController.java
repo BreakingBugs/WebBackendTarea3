@@ -1,5 +1,6 @@
 package py.una.pol.web.tarea2.controller;
 
+import org.apache.logging.log4j.core.Logger;
 import py.una.pol.web.tarea2.model.Item;
 import py.una.pol.web.tarea2.model.Order;
 import py.una.pol.web.tarea2.model.Provider;
@@ -35,9 +36,11 @@ public class ProviderController {
     @PostConstruct
     public void init() {
         //Mock provider
+        /*
         Provider p = new Provider();
         p.setName("Distribuidora Gloria");
         this.addProvider(p);
+        */
     }
 
     public static ProviderController getInstance() {
@@ -70,13 +73,13 @@ public class ProviderController {
             if(i == null) {
                 continue;
             }
-            /*
-            for(Integer itemId : p.getItems()) {
-                if(i.getId().equals(itemId)) {
+
+            for(Item item : p.getItems()) {
+                if(i.getId().equals(item.getId())) {
                     i.setStock(i.getStock() + o.getAmount());
                 }
             }
-            */
+
         }
 
         return true;

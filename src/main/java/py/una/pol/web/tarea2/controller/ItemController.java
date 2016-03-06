@@ -26,17 +26,22 @@ public class ItemController {
     @PersistenceContext(name = "Tarea2DS")
     EntityManager em;
 
+    @Inject
+    ProviderController providerController;
+
     private Integer sequence = 1;
     private List<Item> items = new ArrayList<Item>();
 
     @PostConstruct
     public void init() {
         //Mock product
+        /*
         Item p = new Item();
         p.setName("Coke 500 ml");
         p.setStock(10);
         p.setPrice(5000.0);
         this.addItem(p);
+        */
     }
 
     public List<Item> getItems() {
@@ -50,6 +55,8 @@ public class ItemController {
     }
 
     public void addItem(Item p) {
+        Provider provider = providerController.getProvider(p.getProvider().getId());
+        p.setProvider(provider);
         em.persist(p);
     }
 
@@ -63,6 +70,13 @@ public class ItemController {
             if (itemWithChanges.getName().compareTo(c.getName()) != 0) {
                 c.setName(itemWithChanges.getName());
             }
+            if(itemWithChanges.getPrice().compareTo(c.getPrice()) != 0) {
+                c.setPrice(itemWithChanges.getPrice());
+            }
+            if(itemWithChanges.getProvider() != null && itemWithChanges.getProvider().getId().compareTo(c.getProvider().getId()) != 0) {
+                c.setProvider(providerController.getProvider(itemWithChanges.getProvider().getId()));
+            }
+            em.merge(c);
         }
         return c;
     }

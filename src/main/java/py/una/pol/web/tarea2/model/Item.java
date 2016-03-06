@@ -18,6 +18,10 @@ public class Item implements Serializable {
 
     private Integer stock;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
+
     public String getName() {
         return name;
     }
@@ -48,5 +52,13 @@ public class Item implements Serializable {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 }
