@@ -81,7 +81,7 @@ public class CustomerController {
     public Customer updateCustomer(Integer id, Customer customerWithChanges) {
         Customer c = getCustomer(id);
         if (c != null) {
-            if (customerWithChanges.getName().compareTo(c.getName()) != 0) {
+            if (customerWithChanges.getName() != null && customerWithChanges.getName().compareTo(c.getName()) != 0) {
                 c.setName(customerWithChanges.getName());
             }
         }

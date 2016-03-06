@@ -33,7 +33,7 @@ public class ItemController {
     }
 
     public void addItem(Item p) {
-        if(p.getProvider() != null) {
+        if (p.getProvider() != null) {
             Provider provider = providerController.getProvider(p.getProvider().getId());
             p.setProvider(provider);
         }
@@ -46,14 +46,16 @@ public class ItemController {
 
     public Item updateItem(Integer id, Item itemWithChanges) {
         Item c = getItem(id);
-        if(c != null) {
-            if (itemWithChanges.getName().compareTo(c.getName()) != 0) {
+        if (c != null) {
+            if (itemWithChanges.getName() != null && itemWithChanges.getName().compareTo(c.getName()) != 0) {
                 c.setName(itemWithChanges.getName());
             }
-            if(itemWithChanges.getPrice().compareTo(c.getPrice()) != 0) {
+            if (itemWithChanges.getPrice() != null && itemWithChanges.getPrice().compareTo(c.getPrice()) != 0) {
                 c.setPrice(itemWithChanges.getPrice());
             }
-            if(itemWithChanges.getProvider() != null && itemWithChanges.getProvider().getId().compareTo(c.getProvider().getId()) != 0) {
+            if (c.getProvider() == null ||
+                    (itemWithChanges.getProvider() != null &&
+                            itemWithChanges.getProvider().getId().compareTo(c.getProvider().getId()) != 0)) {
                 c.setProvider(providerController.getProvider(itemWithChanges.getProvider().getId()));
             }
             em.merge(c);
@@ -63,7 +65,7 @@ public class ItemController {
 
     public void removeItem(final Integer id) {
         Item c = getItem(id);
-        if(c!=null) {
+        if (c != null) {
             em.remove(c);
         }
     }

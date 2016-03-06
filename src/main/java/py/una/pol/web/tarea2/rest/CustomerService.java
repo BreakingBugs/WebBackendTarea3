@@ -35,7 +35,7 @@ public class CustomerService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response sell(List<Order> orders, @PathParam("id") Integer customerId) {
-        if(customerController.sellToClient(customerId, orders)) {
+        if (customerController.sellToClient(customerId, orders)) {
             return Response.ok().build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -47,7 +47,7 @@ public class CustomerService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response pay(Payment payment, @PathParam("id") Integer customerId) {
-        if(customerController.addPayment(customerId, payment)) {
+        if (customerController.addPayment(customerId, payment)) {
             return Response.ok().build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -59,7 +59,7 @@ public class CustomerService {
     @Produces("application/json")
     public Response getCustomer(@PathParam("id") Integer id) {
         Customer c = customerController.getCustomer(id);
-        if(c != null) {
+        if (c != null) {
             return Response.ok(c).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -72,7 +72,7 @@ public class CustomerService {
     @Produces("application/json")
     public Response updateCustomer(@PathParam("id") Integer id, Customer updatedCustomer) {
         Customer c = customerController.updateCustomer(id, updatedCustomer);
-        if(c != null) {
+        if (c != null) {
             return Response.ok(c).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();

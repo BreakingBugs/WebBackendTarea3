@@ -35,7 +35,7 @@ public class ProviderService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response sell(List<Order> orders, @PathParam("id") Integer providerId) {
-        if(providerController.buyFromProvider(providerId, orders)) {
+        if (providerController.buyFromProvider(providerId, orders)) {
             return Response.ok().build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -47,7 +47,7 @@ public class ProviderService {
     @Produces("application/json")
     public Response getProvider(@PathParam("id") Integer id) {
         Provider p = providerController.getProvider(id);
-        if(p != null) {
+        if (p != null) {
             return Response.ok(p).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -60,7 +60,7 @@ public class ProviderService {
     @Produces("application/json")
     public Response updateProvider(@PathParam("id") Integer id, Provider updatedProvider) {
         Provider p = providerController.updateProvider(id, updatedProvider);
-        if(p != null) {
+        if (p != null) {
             return Response.ok(p).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();

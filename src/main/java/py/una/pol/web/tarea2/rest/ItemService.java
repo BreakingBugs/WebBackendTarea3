@@ -32,7 +32,7 @@ public class ItemService {
     @Produces("application/json")
     public Response getItem(@PathParam("id") Integer id) {
         Item p = itemController.getItem(id);
-        if(p != null) {
+        if (p != null) {
             return Response.ok(p).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -45,7 +45,7 @@ public class ItemService {
     @Produces("application/json")
     public Response updateItem(@PathParam("id") Integer id, Item updatedItem) {
         Item p = itemController.updateItem(id, updatedItem);
-        if(p != null) {
+        if (p != null) {
             return Response.ok(p).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();

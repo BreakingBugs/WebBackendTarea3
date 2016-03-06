@@ -38,18 +38,18 @@ public class ProviderController {
 
     public boolean buyFromProvider(Integer providerId, List<Order> orders) {
         Provider p = this.getProvider(providerId);
-        if(p == null) {
+        if (p == null) {
             return false;
         }
 
-        for(Order o : orders) {
+        for (Order o : orders) {
             Item i = itemController.getItem(o.getItem());
-            if(i == null) {
+            if (i == null) {
                 continue;
             }
 
-            for(Item item : p.getItems()) {
-                if(i.getId().equals(item.getId())) {
+            for (Item item : p.getItems()) {
+                if (i.getId().equals(item.getId())) {
                     i.setStock(i.getStock() + o.getAmount());
                 }
             }
@@ -60,13 +60,13 @@ public class ProviderController {
     }
 
     public Provider getProvider(Integer id) {
-       return em.find(Provider.class, id);
+        return em.find(Provider.class, id);
     }
 
     public Provider updateProvider(Integer id, Provider providerWithChanges) {
         Provider p = getProvider(id);
-        if(p!=null) {
-            if(providerWithChanges.getName().compareTo(p.getName()) != 0) {
+        if (p != null) {
+            if (providerWithChanges.getName() != null && providerWithChanges.getName().compareTo(p.getName()) != 0) {
                 p.setName(providerWithChanges.getName());
             }
         }
@@ -75,7 +75,7 @@ public class ProviderController {
 
     public void removeProvider(final Integer id) {
         Provider p = getProvider(id);
-        if(p!=null) {
+        if (p != null) {
             em.remove(p);
         }
     }
