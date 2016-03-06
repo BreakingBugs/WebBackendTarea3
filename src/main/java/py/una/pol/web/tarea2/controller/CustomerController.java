@@ -26,14 +26,6 @@ public class CustomerController {
     @EJB
     ItemController itemController;
 
-    private static CustomerController instance = new CustomerController();
-    private Integer sequence = 1;
-    private List<Customer> customers = new ArrayList<Customer>();
-
-    public static CustomerController getInstance() {
-        return instance;
-    }
-
     public List<Customer> getCustomers() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Customer> cq = cb.createQuery(Customer.class);

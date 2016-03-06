@@ -29,9 +29,6 @@ public class ItemController {
     @Inject
     ProviderController providerController;
 
-    private Integer sequence = 1;
-    private List<Item> items = new ArrayList<Item>();
-
     public List<Item> getItems() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Item> cq = cb.createQuery(Item.class);

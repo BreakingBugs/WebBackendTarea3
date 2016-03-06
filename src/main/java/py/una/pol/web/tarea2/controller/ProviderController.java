@@ -29,14 +29,6 @@ public class ProviderController {
     @Inject
     ItemController itemController;
 
-    private static ProviderController instance = new ProviderController();
-    private Integer sequence = 1;
-    private List<Provider> providers = new ArrayList<Provider>();
-
-    public static ProviderController getInstance() {
-        return instance;
-    }
-
     public List<Provider> getProviders() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Provider> cq = cb.createQuery(Provider.class);
