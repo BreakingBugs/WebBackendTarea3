@@ -33,16 +33,6 @@ public class ProviderController {
     private Integer sequence = 1;
     private List<Provider> providers = new ArrayList<Provider>();
 
-    @PostConstruct
-    public void init() {
-        //Mock provider
-        /*
-        Provider p = new Provider();
-        p.setName("Distribuidora Gloria");
-        this.addProvider(p);
-        */
-    }
-
     public static ProviderController getInstance() {
         return instance;
     }

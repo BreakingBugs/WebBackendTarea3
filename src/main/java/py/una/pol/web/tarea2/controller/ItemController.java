@@ -32,18 +32,6 @@ public class ItemController {
     private Integer sequence = 1;
     private List<Item> items = new ArrayList<Item>();
 
-    @PostConstruct
-    public void init() {
-        //Mock product
-        /*
-        Item p = new Item();
-        p.setName("Coke 500 ml");
-        p.setStock(10);
-        p.setPrice(5000.0);
-        this.addItem(p);
-        */
-    }
-
     public List<Item> getItems() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Item> cq = cb.createQuery(Item.class);

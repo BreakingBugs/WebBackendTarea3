@@ -30,16 +30,6 @@ public class CustomerController {
     private Integer sequence = 1;
     private List<Customer> customers = new ArrayList<Customer>();
 
-    @PostConstruct
-    public void init() {
-        //Mock customer
-        /*Customer c = new Customer();
-        c.setName("John Doe");
-        c.setAmountToPay(0.0);
-        this.addCustomer(c);
-        */
-    }
-
     public static CustomerController getInstance() {
         return instance;
     }
