@@ -66,7 +66,7 @@ public class ItemController {
 
     public Item updateItem(Integer id, Item itemWithChanges) {
         Item c = getItem(id);
-        if(c!= null) {
+        if(c != null) {
             if (itemWithChanges.getName().compareTo(c.getName()) != 0) {
                 c.setName(itemWithChanges.getName());
             }

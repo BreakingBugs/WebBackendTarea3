@@ -1,11 +1,11 @@
 package py.una.pol.web.tarea2.controller;
 
-import org.apache.logging.log4j.core.Logger;
 import py.una.pol.web.tarea2.model.Item;
 import py.una.pol.web.tarea2.model.Order;
 import py.una.pol.web.tarea2.model.Provider;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -48,7 +48,6 @@ public class ProviderController {
     }
 
     public List<Provider> getProviders() {
-
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Provider> cq = cb.createQuery(Provider.class);
         Root<Provider> root = cq.from(Provider.class);

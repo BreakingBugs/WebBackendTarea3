@@ -60,18 +60,18 @@ public class CustomerController {
 
     public boolean sellToClient(Integer clientId, List<Order> orders) {
         Customer c = this.getCustomer(clientId);
-        if(c == null) {
+        if (c == null) {
             return false;
         }
 
-        for(Order o : orders) {
+        for (Order o : orders) {
             Item i = itemController.getItem(o.getItem());
-            if(i == null) {
+            if (i == null) {
                 continue;
             }
 
             Integer amount = o.getAmount();
-            if(i.getStock() < o.getAmount()) {
+            if (i.getStock() < o.getAmount()) {
                 amount = i.getStock();
             }
 
@@ -87,7 +87,7 @@ public class CustomerController {
 
     public boolean addPayment(Integer clientId, Payment payment) {
         Customer c = this.getCustomer(clientId);
-        if(c == null) {
+        if (c == null) {
             return false;
         }
 
@@ -104,7 +104,7 @@ public class CustomerController {
 
     public Customer updateCustomer(Integer id, Customer customerWithChanges) {
         Customer c = getCustomer(id);
-        if(c!= null) {
+        if (c != null) {
             if (customerWithChanges.getName().compareTo(c.getName()) != 0) {
                 c.setName(customerWithChanges.getName());
             }
@@ -114,7 +114,7 @@ public class CustomerController {
 
     public void removeCustomer(final Integer id) {
         Customer c = getCustomer(id);
-        if( c!= null) {
+        if (c != null) {
             em.remove(c);
         }
     }
