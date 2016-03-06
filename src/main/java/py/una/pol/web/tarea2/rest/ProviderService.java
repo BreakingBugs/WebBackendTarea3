@@ -4,7 +4,6 @@ import py.una.pol.web.tarea2.controller.ProviderController;
 import py.una.pol.web.tarea2.model.Order;
 import py.una.pol.web.tarea2.model.Provider;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;

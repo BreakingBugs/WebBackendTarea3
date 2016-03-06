@@ -4,12 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by codiumsa on 28/2/16.
- */
 @Entity
 @Table(name = "provider")
 public class Provider implements Serializable {

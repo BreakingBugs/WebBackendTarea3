@@ -4,8 +4,6 @@ import py.una.pol.web.tarea2.model.Item;
 import py.una.pol.web.tarea2.model.Order;
 import py.una.pol.web.tarea2.model.Provider;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -14,13 +12,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
-/**
- * Created by codiumsa on 27/2/16.
- */
 @Stateless
 public class ProviderController {
     @PersistenceContext(name = "Tarea2DS")
@@ -64,20 +57,6 @@ public class ProviderController {
         }
 
         return true;
-    }
-
-    private void checkItems(Provider p) {
-        //comprobamos que todos los items asociados sean validos
-        /*
-        for(int i = 0; i < p.getItems().size(); i++) {
-            Item item = itemController.getItem(p.getItems().get(i));
-            if(item != null) {
-                continue;
-            }
-
-            p.getItems().remove(i);
-        }
-        */
     }
 
     public Provider getProvider(Integer id) {

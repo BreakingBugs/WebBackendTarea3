@@ -5,9 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by codiumsa on 28/2/16.
- */
+
 @Entity
 @Table(name = "customer")
 public class Customer implements Serializable {
@@ -21,8 +19,8 @@ public class Customer implements Serializable {
 
     private Double amountToPay;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Payment> payments;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private List<Payment> payments = new ArrayList<Payment>();
 
     public Integer getId() {
         return id;

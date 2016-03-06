@@ -8,13 +8,11 @@ import javax.ws.rs.ext.ContextResolver;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-/**
- * Created by codiumsa on 28/2/16.
- */
-public class JacksonConfig implements ContextResolver<ObjectMapper> {
+
+class JacksonConfig implements ContextResolver<ObjectMapper> {
     private final ObjectMapper objectMapper;
 
-    public JacksonConfig() throws Exception {
+    public JacksonConfig() {
         objectMapper = new ObjectMapper().configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, true);
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");

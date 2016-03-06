@@ -1,11 +1,8 @@
 package py.una.pol.web.tarea2.controller;
 
-import py.una.pol.web.tarea2.model.Customer;
 import py.una.pol.web.tarea2.model.Item;
 import py.una.pol.web.tarea2.model.Provider;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -14,17 +11,13 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
-/**
- * Created by codiumsa on 27/2/16.
- */
+
 @Stateless
 public class ItemController {
     @PersistenceContext(name = "Tarea2DS")
-    EntityManager em;
+    private EntityManager em;
 
     @Inject
     ProviderController providerController;
@@ -40,8 +33,10 @@ public class ItemController {
     }
 
     public void addItem(Item p) {
-        Provider provider = providerController.getProvider(p.getProvider().getId());
-        p.setProvider(provider);
+        if(p.getProvider() != null) {
+            Provider provider = providerController.getProvider(p.getProvider().getId());
+            p.setProvider(provider);
+        }
         em.persist(p);
     }
 

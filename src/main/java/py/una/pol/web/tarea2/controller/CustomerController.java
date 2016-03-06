@@ -2,28 +2,21 @@ package py.una.pol.web.tarea2.controller;
 
 import py.una.pol.web.tarea2.model.*;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
 
-/**
- * Created by codiumsa on 28/2/16.
- */
+
 @Stateless
 public class CustomerController {
     @PersistenceContext(name = "Tarea2DS")
-    EntityManager em;
+    private EntityManager em;
 
-    @EJB
+    @Inject
     ItemController itemController;
 
     public List<Customer> getCustomers() {
@@ -75,8 +68,9 @@ public class CustomerController {
 
         Double monto = payment.getAmount();
         c.setAmountToPay(c.getAmountToPay() - monto);
-        //c.getPayments().add(payment);
-
+        c.getPayments().add(payment);
+        payment.setCustomer(c);
+        em.persist(payment);
         return true;
     }
 

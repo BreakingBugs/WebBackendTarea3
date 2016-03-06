@@ -3,7 +3,6 @@ package py.una.pol.web.tarea2.rest;
 import py.una.pol.web.tarea2.controller.ItemController;
 import py.una.pol.web.tarea2.model.Item;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;

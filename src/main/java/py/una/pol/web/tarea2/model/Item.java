@@ -16,7 +16,7 @@ public class Item implements Serializable {
 
     private Double price;
 
-    private Integer stock;
+    private Integer stock = 0;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "provider_id")
