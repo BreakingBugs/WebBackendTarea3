@@ -1,6 +1,6 @@
-package py.una.pol.web.tarea2.controller;
+package py.una.pol.web.tarea3.controller;
 
-import py.una.pol.web.tarea2.model.*;
+import py.una.pol.web.tarea3.model.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

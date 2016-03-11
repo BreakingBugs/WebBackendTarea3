@@ -1,7 +1,7 @@
-package py.una.pol.web.tarea2.rest;
+package py.una.pol.web.tarea3.rest;
 
-import py.una.pol.web.tarea2.controller.ItemController;
-import py.una.pol.web.tarea2.model.Item;
+import py.una.pol.web.tarea3.controller.ItemController;
+import py.una.pol.web.tarea3.model.Item;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

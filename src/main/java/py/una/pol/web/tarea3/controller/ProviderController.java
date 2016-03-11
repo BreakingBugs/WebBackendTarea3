@@ -1,8 +1,8 @@
-package py.una.pol.web.tarea2.controller;
+package py.una.pol.web.tarea3.controller;
 
-import py.una.pol.web.tarea2.model.Item;
-import py.una.pol.web.tarea2.model.Order;
-import py.una.pol.web.tarea2.model.Provider;
+import py.una.pol.web.tarea3.model.Item;
+import py.una.pol.web.tarea3.model.Order;
+import py.una.pol.web.tarea3.model.Provider;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
