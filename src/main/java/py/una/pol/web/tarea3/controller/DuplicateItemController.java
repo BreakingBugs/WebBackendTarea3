@@ -33,7 +33,6 @@ public class DuplicateItemController {
 
     public void addDuplicate(Item p) {
         Item existing = itemController.getItemByName(p.getName());
-        p.setId(existing.getId());
         DuplicateItem dup = existing.getDuplicate();
         if (dup != null) {
             dup.setCantidad(dup.getCantidad() + 1);
@@ -45,8 +44,12 @@ public class DuplicateItemController {
             existing.setDuplicate(dup);
             em.persist(dup);
         }
-
-        em.merge(p);
+        p.setId(existing.getId());
+        p.setName(existing.getName());
+        p.setPrice(existing.getPrice());
+        p.setStock(existing.getStock());
+        p.setDuplicate(existing.getDuplicate());
+        p.setProvider(existing.getProvider());
     }
 
     public DuplicateItem getDuplicate(Integer id) {
