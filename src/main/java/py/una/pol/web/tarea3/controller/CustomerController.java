@@ -1,5 +1,6 @@
 package py.una.pol.web.tarea3.controller;
 
+import py.una.pol.web.tarea3.exceptions.OutOfStockException;
 import py.una.pol.web.tarea3.model.*;
 
 import javax.ejb.Stateless;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Stateless
 public class CustomerController {
-    @PersistenceContext(name = "Tarea2DS")
+    @PersistenceContext(name = "Tarea3DS")
     private EntityManager em;
 
     @Inject
@@ -33,31 +34,57 @@ public class CustomerController {
         em.persist(c);
     }
 
-    public boolean sellToClient(Integer clientId, List<Order> orders) {
+    public void sellToClient(Integer clientId, List<Order> orders) throws OutOfStockException, RuntimeException {
         Customer c = this.getCustomer(clientId);
         if (c == null) {
-            return false;
+            throw new RuntimeException();
         }
+
+        Sale s = new Sale();
+
+        Double totalAmount = 0.0;
 
         for (Order o : orders) {
-            Item i = itemController.getItem(o.getItem());
-            if (i == null) {
-                continue;
-            }
+            SaleOrder so = createSaleOrder(o);
+            so.setSale(s);
+            em.persist(so);
+            s.getOrders().add(so);
 
-            Integer amount = o.getAmount();
-            if (i.getStock() < o.getAmount()) {
-                amount = i.getStock();
-            }
+            Item i = so.getItem();
+            Double total = i.getPrice() * so.getAmount();
+            totalAmount += total;
 
-            Double total = i.getPrice() * amount;
-            c.setAmountToPay(c.getAmountToPay() + total);
-            em.merge(c);
-            i.setStock(i.getStock() - amount);
+            i.setStock(i.getStock() - so.getAmount());
             em.merge(i);
         }
+        s.setAmount(totalAmount);
+        s.setCustomer(c);
+        em.persist(s);
+        c.getSales().add(s);
+        c.setAmountToPay(c.getAmountToPay() + s.getAmount());
+        em.merge(c);
+    }
 
-        return true;
+    public SaleOrder createSaleOrder(Order o) throws OutOfStockException {
+        SaleOrder so = new SaleOrder();
+        Item i = itemController.getItem(o.getItem());
+        if (i == null) {
+            return null;
+        }
+
+        Integer amount = o.getAmount();
+
+        if(i.getStock() == 0) {
+            throw new OutOfStockException();
+        }
+
+        if (i.getStock() < o.getAmount()) {
+            amount = i.getStock();
+        }
+
+        so.setItem(i);
+        so.setAmount(amount);
+        return so;
     }
 
     public boolean addPayment(Integer clientId, Payment payment) {

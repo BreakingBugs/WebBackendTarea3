@@ -4,18 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "ordertable")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     private Integer item;
 
-    @Min(1)
     private Integer amount;
 
     public Integer getAmount() {

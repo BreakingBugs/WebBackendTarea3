@@ -15,7 +15,7 @@ import java.util.List;
 
 @Stateless
 public class DuplicateItemController {
-    @PersistenceContext(name = "Tarea2DS")
+    @PersistenceContext(name = "Tarea3DS")
     private EntityManager em;
 
     @EJB

@@ -15,7 +15,7 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
     public JacksonConfig() {
         objectMapper = new ObjectMapper().configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, true);
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         objectMapper.setDateFormat(df);
     }
 

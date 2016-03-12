@@ -35,10 +35,11 @@ public class CustomerService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response sell(List<Order> orders, @PathParam("id") Integer customerId) {
-        if (customerController.sellToClient(customerId, orders)) {
+        try {
+            customerController.sellToClient(customerId, orders);
             return Response.ok().build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        } catch(Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
 

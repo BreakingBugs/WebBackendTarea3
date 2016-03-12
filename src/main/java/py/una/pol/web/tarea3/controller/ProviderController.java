@@ -16,7 +16,7 @@ import java.util.List;
 
 @Stateless
 public class ProviderController {
-    @PersistenceContext(name = "Tarea2DS")
+    @PersistenceContext(name = "Tarea3DS")
     EntityManager em;
 
     @Inject

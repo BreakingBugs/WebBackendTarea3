@@ -22,6 +22,9 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Payment> payments = new ArrayList<Payment>();
 
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private List<Sale> sales = new ArrayList<Sale>();
+
     public Integer getId() {
         return id;
     }
@@ -52,6 +55,14 @@ public class Customer implements Serializable {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public List<Sale> getSales() {
+        return sales;
+    }
+
+    public void setSales(List<Sale> sales) {
+        this.sales = sales;
     }
 
 }
