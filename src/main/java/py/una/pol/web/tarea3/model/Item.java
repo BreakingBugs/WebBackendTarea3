@@ -1,6 +1,5 @@
 package py.una.pol.web.tarea3.model;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -19,6 +18,9 @@ public class Item implements Serializable {
     private Double price;
 
     private Integer stock = 0;
+
+    @OneToOne(mappedBy = "item")
+    private DuplicateItem duplicate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "provider_id")
@@ -62,5 +64,13 @@ public class Item implements Serializable {
 
     public void setProvider(Provider provider) {
         this.provider = provider;
+    }
+
+    public DuplicateItem getDuplicate() {
+        return duplicate;
+    }
+
+    public void setDuplicate(DuplicateItem duplicate) {
+        this.duplicate = duplicate;
     }
 }
