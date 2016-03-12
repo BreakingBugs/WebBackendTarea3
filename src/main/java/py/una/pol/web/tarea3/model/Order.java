@@ -1,8 +1,8 @@
 package py.una.pol.web.tarea3.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
-
 
 @Entity
 @Table(name = "ordertable")
@@ -15,6 +15,7 @@ public class Order implements Serializable {
 
     private Integer item;
 
+    @Min(1)
     private Integer amount;
 
     public Integer getAmount() {
