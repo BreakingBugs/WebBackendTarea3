@@ -74,12 +74,8 @@ public class CustomerController {
 
         Integer amount = o.getAmount();
 
-        if(i.getStock() == 0) {
+        if(i.getStock() == 0 || o.getAmount() == null || o.getAmount() <= 0 || i.getStock() < o.getAmount()) {
             throw new OutOfStockException();
-        }
-
-        if (i.getStock() < o.getAmount()) {
-            amount = i.getStock();
         }
 
         so.setItem(i);
