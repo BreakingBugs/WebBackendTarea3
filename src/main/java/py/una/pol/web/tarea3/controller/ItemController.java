@@ -6,6 +6,7 @@ import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.SessionFactory;
 import org.hibernate.StatelessSession;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import py.una.pol.web.tarea3.exceptions.DuplicateException;
@@ -24,6 +25,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @Stateless
 public class ItemController {
@@ -129,15 +131,17 @@ public class ItemController {
                 Provider provider = providerController.getProvider(item.getProvider().getId());
                 item.setProvider(provider);
             }
-            try {
-                self.tryAddItem(item);
-            } catch (DuplicateException e) {
-                duplicateItemController.addDuplicate(item);
-                duplicates++;
-            }
+            em.persist(item);
             if (i % batchSize == 0) {
-                em.flush();
-                em.clear();
+                try {
+                    em.flush();
+                } catch (ConstraintViolationException e) {
+                    Logger logger = LoggerFactory.getLogger(ItemController.class);
+                    logger.error(e.getMessage());
+                    e.printStackTrace();
+                } finally {
+                    em.clear();
+                }
             }
         }
         return duplicates;
