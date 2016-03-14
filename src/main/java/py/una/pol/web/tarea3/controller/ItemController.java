@@ -2,10 +2,7 @@ package py.una.pol.web.tarea3.controller;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.ScrollMode;
-import org.hibernate.ScrollableResults;
-import org.hibernate.SessionFactory;
-import org.hibernate.StatelessSession;
+import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import py.una.pol.web.tarea3.exceptions.DuplicateException;
@@ -67,9 +64,9 @@ public class ItemController {
         JsonGenerator jg = objectMapper.getFactory().createGenerator(outputStream);
         jg.writeStartArray();
 
-        StatelessSession statelessSession = sessionFactory.openStatelessSession();
+        StatelessSession session = sessionFactory.openStatelessSession();
         try {
-            ScrollableResults scrollableResults = statelessSession.createQuery("from Item order by id")
+            ScrollableResults scrollableResults = session.createQuery("from Item order by id")
                     .setReadOnly(true).setCacheable(false).setFetchSize(ITEMS_MAX).scroll(ScrollMode.FORWARD_ONLY);
             while (scrollableResults.next()) {
                 Item i = (Item) scrollableResults.get()[0];
@@ -80,7 +77,7 @@ public class ItemController {
             logger.error(e.getMessage());
             e.printStackTrace();
         } finally {
-            statelessSession.close();
+            session.close();
         }
         jg.writeEndArray();
         jg.close();
