@@ -15,8 +15,8 @@ public class ItemService {
 
     @GET
     @Produces("application/json")
-    public List<Item> getItems() {
-        return itemController.getItems();
+    public Response getItems() {
+        return Response.ok(itemController.getItems()).build();
     }
 
     @POST

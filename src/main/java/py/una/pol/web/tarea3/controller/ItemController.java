@@ -1,5 +1,13 @@
 package py.una.pol.web.tarea3.controller;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.ScrollMode;
+import org.hibernate.ScrollableResults;
+import org.hibernate.SessionFactory;
+import org.hibernate.StatelessSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import py.una.pol.web.tarea3.exceptions.DuplicateException;
 import py.una.pol.web.tarea3.model.Item;
 import py.una.pol.web.tarea3.model.Provider;
@@ -8,20 +16,24 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.List;
-
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.IOException;
+import java.io.OutputStream;
 
 @Stateless
 public class ItemController {
+    private static final int ITEMS_MAX = 100;
+
     @PersistenceContext(name = "Tarea3DS")
     private EntityManager em;
+
+    @PersistenceUnit(unitName = "Tarea3DS")
+    private SessionFactory sessionFactory;
 
     @Inject
     ProviderController providerController;
@@ -32,15 +44,45 @@ public class ItemController {
     @Inject
     private ItemController self;
 
-    public List<Item> getItems() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Item> cq = cb.createQuery(Item.class);
-        Root<Item> root = cq.from(Item.class);
-        cq.select(root);
-        TypedQuery<Item> query = em.createQuery(cq);
-
-        return query.getResultList();
+    public StreamingOutput getItems() {
+        return new StreamingOutput() {
+            public void write(OutputStream outputStream) throws IOException, WebApplicationException {
+                try {
+                    fetchItemsAndStream(outputStream);
+                } catch (Exception e) {
+                    Logger logger = LoggerFactory.getLogger(ItemController.class);
+                    logger.error(e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        };
     }
+
+    private void fetchItemsAndStream(OutputStream outputStream) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonGenerator jg = objectMapper.getFactory().createGenerator(outputStream);
+        jg.writeStartArray();
+
+        StatelessSession statelessSession = sessionFactory.openStatelessSession();
+        try {
+            ScrollableResults scrollableResults = statelessSession.createQuery("from Item")
+                    .setReadOnly(true).setCacheable(false).setFetchSize(ITEMS_MAX).scroll(ScrollMode.FORWARD_ONLY);
+            while (scrollableResults.next()) {
+                Item i = (Item) scrollableResults.get()[0];
+                jg.writeObject(i);
+            }
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(ItemController.class);
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            statelessSession.close();
+        }
+        jg.writeEndArray();
+        jg.close();
+    }
+
 
     public Item getItemByName(String name) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
