@@ -27,6 +27,14 @@ public class ItemService {
         return newItem;
     }
 
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response addItem(List<Item> items) {
+        int duplicates = itemController.batchAddItem(items);
+        return Response.ok(items).build();
+    }
+
     @GET
     @Path("/{id: [0-9]*}")
     @Produces("application/json")

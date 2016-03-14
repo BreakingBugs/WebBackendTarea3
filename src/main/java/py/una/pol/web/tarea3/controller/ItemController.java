@@ -29,6 +29,8 @@ import java.io.OutputStream;
 public class ItemController {
     private static final int ITEMS_MAX = 100;
 
+    private int batchSize = 20;
+
     @PersistenceContext(name = "Tarea3DS")
     private EntityManager em;
 
@@ -116,6 +118,29 @@ public class ItemController {
         } catch (PersistenceException e) {
             throw new DuplicateException();
         }
+    }
+
+    public int batchAddItem(List<Item> items) {
+        int i = 0;
+        int duplicates = 0;
+        for (Item item : items) {
+            i++;
+            if (item.getProvider() != null) {
+                Provider provider = providerController.getProvider(item.getProvider().getId());
+                item.setProvider(provider);
+            }
+            try {
+                self.tryAddItem(item);
+            } catch (DuplicateException e) {
+                duplicateItemController.addDuplicate(item);
+                duplicates++;
+            }
+            if (i % batchSize == 0) {
+                em.flush();
+                em.clear();
+            }
+        }
+        return duplicates;
     }
 
     public Item getItem(Integer id) {
