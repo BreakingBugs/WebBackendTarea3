@@ -24,6 +24,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @Stateless
 public class ItemController {
@@ -68,7 +69,7 @@ public class ItemController {
 
         StatelessSession statelessSession = sessionFactory.openStatelessSession();
         try {
-            ScrollableResults scrollableResults = statelessSession.createQuery("from Item")
+            ScrollableResults scrollableResults = statelessSession.createQuery("from Item order by id")
                     .setReadOnly(true).setCacheable(false).setFetchSize(ITEMS_MAX).scroll(ScrollMode.FORWARD_ONLY);
             while (scrollableResults.next()) {
                 Item i = (Item) scrollableResults.get()[0];

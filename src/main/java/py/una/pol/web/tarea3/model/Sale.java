@@ -20,6 +20,7 @@ public class Sale implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date = new Date();
 
     private Double amount;
