@@ -28,10 +28,9 @@ public class ItemService {
     }
 
     @POST
-    @Path("/batch")
     @Consumes("application/json")
     @Produces("application/json")
-    public Response batchAddItem(List<Item> items) {
+    public Response addItem(List<Item> items) {
         int duplicates = itemController.batchAddItem(items);
         return Response.ok(items).build();
     }
