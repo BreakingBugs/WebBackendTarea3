@@ -3,6 +3,11 @@ package py.una.pol.web.tarea3.controller;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.*;
+import org.hibernate.ScrollMode;
+import org.hibernate.ScrollableResults;
+import org.hibernate.SessionFactory;
+import org.hibernate.StatelessSession;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import py.una.pol.web.tarea3.exceptions.DuplicateException;
@@ -28,6 +33,7 @@ public class ItemController {
     private static final int ITEMS_MAX = 100;
 
     private int batchSize = 20;
+
 
     @PersistenceContext(name = "Tarea3DS")
     private EntityManager em;
@@ -127,15 +133,17 @@ public class ItemController {
                 Provider provider = providerController.getProvider(item.getProvider().getId());
                 item.setProvider(provider);
             }
-            try {
-                self.tryAddItem(item);
-            } catch (DuplicateException e) {
-                duplicateItemController.addDuplicate(item);
-                duplicates++;
-            }
+            em.persist(item);
             if (i % batchSize == 0) {
-                em.flush();
-                em.clear();
+                try {
+                    em.flush();
+                } catch (ConstraintViolationException e) {
+                    Logger logger = LoggerFactory.getLogger(ItemController.class);
+                    logger.error(e.getMessage());
+                    e.printStackTrace();
+                } finally {
+                    em.clear();
+                }
             }
         }
         return duplicates;
