@@ -1,7 +1,6 @@
 package py.una.pol.web.tarea3.rest;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +27,16 @@ public class ItemService {
         return Response.ok(itemController.getItems()).build();
     }
 
+    @GET
+    @Path("/export")
+    @Produces("multipart/form-data")
+    public Response exportItems() {
+
+        return Response.ok(itemController.getItems())
+                .header("Content-Disposition", "attachment; filename = items.json")
+                .build();
+    }
+
     @POST
     @Consumes("application/json")
     @Produces("application/json")
@@ -36,7 +45,7 @@ public class ItemService {
 
         try {
             JsonNode node = om.readValue(jsonString, JsonNode.class);
-            if(node.isArray()) {
+            if (node.isArray()) {
                 List<Item> items = Arrays.asList(om.readValue(jsonString, Item[].class));
                 addBatch(items);
                 return Response.ok(items).build();
