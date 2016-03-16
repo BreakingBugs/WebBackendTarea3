@@ -26,6 +26,6 @@ $ node index.js -u -n 4 -s 2
 ```
 ### Options
 * -u, --unique: Unique object names.
-* -n, --number <count>: Will generate [count] objects.
-* -s, --space <spaces>: Number of space characters to use as white space. If not specified, will default to 0.
-* -o, --output <file>: Output results to this specified file. If not specified, will output to stdout.
+* -n, --number [count]: Will generate [count] objects.
+* -s, --space [spaces]: Number of space characters to use as white space. If not specified, will default to 0.
+* -o, --output [file]: Output results to this specified file. If not specified, will output to stdout.
