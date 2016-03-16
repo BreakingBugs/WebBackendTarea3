@@ -9,8 +9,9 @@ public class Item implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEMS_SEQ")
-    @SequenceGenerator(name = "ITEMS_SEQ", sequenceName = "SEQUENCE_ITEMS")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEMS_SEQ")
+//    @SequenceGenerator(name = "ITEMS_SEQ", sequenceName = "SEQUENCE_ITEMS")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(unique = true)

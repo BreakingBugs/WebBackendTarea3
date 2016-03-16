@@ -10,8 +10,10 @@ import java.io.Serializable;
 public class DuplicateItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DUPLICATE_ITEMS_SEQ")
+//    @SequenceGenerator(name = "DUPLICATE_ITEMS_SEQ", sequenceName = "SEQUENCE_DUPLICATE_ITEMS")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne(optional = false)

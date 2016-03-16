@@ -129,11 +129,7 @@ public class ItemController {
         int duplicates = 0;
         for (Item item : items) {
             i++;
-            if (item.getProvider() != null) {
-                Provider provider = providerController.getProvider(item.getProvider().getId());
-                item.setProvider(provider);
-            }
-            em.persist(item);
+            addItem(item);
             if (i % batchSize == 0) {
                 try {
                     em.flush();
